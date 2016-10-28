@@ -3,81 +3,20 @@
 <head>
   <meta charset="utf-8">
   <title>Pantarei.js</title>
-  <script src="lib/fetch.js"></script>
-  <script src="lib/webcomponents.js"></script>
-  <script src="dist/pantarei.js"></script>
-  <style>
-    html {
-      color: #333;
-      font-family: sans-serif;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  </style>
+  <script src="scripts/fetch.js"></script>
+  <script src="scripts/webcomponents.js"></script>
+  <script src="scripts/pantarei.js"></script>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="import" href="elements/github-readme.html">
 </head>
 <body>
 
-  <template-element id="github-readme">
-    <template>
-      <style>
-        [aria-hidden] {
-          display: none;
-        }
-        pre {
-          padding: 20px;
-          background: #efefef;
-        }
-      </style>
-      <div ref="content"></div>
-    </template>
-  </template-element>
+  <github-readme owner="pantareijs" repos="pantarei.js.org"></github-readme>
 
-  <github-readme owner="pantareijs" repos="pantarei"></github-readme>
-
-  <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
-  <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
-
-  <script>
-  (function () {
-
-    class GithubReadme extends Pantarei.Element {
-
-      get props () {
-        return {
-          owner: {
-            type: String,
-            value: ''
-          },
-          repos: {
-            type: String,
-            value: ''
-          }
-        }
-      }
-
-      after_connect () {
-        let url = `https://api.github.com/repos/${this.owner}/${this.repos}/readme`
-        fetch(url, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/vnd.github.v3.html',
-              'Content-Type': 'application/vnd.github.v3.html'
-            }
-          })
-          .then((res) => res.text())
-          .then((content) => {
-            this.refs.content.innerHTML = content
-            this.update()
-          })
-          .catch((err) => console.log(err))
-      }
-    }
-
-    document.registerElement('github-readme', GithubReadme)
-
-  }())
-  </script>
+  <div>
+    <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
+    <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
+  </div>
 
 </body>
 </html>

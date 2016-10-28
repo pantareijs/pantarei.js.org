@@ -1,0 +1,55 @@
+<template-element id="github-readme">
+  <template>
+    <style>
+      [aria-hidden] {
+        display: none;
+      }
+      pre {
+        padding: 20px;
+        background: #efefef;
+      }
+    </style>
+    <div ref="content"></div>
+  </template>
+</template-element>
+
+<script>
+  class GithubReadme extends Pantarei.Element {
+
+    get props () {
+      return {
+        owner: {
+          type: String,
+          value: ''
+        },
+        repos: {
+          type: String,
+          value: ''
+        }
+      }
+    }
+
+    after_connect () {
+      let url = `https://api.github.com/repos/${this.owner}/${this.repos}/readme`
+      fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/vnd.github.v3.html',
+            'Content-Type': 'application/vnd.github.v3.html'
+          }
+        })
+        .then((res) => {
+          return res.text()
+        })
+        .then((content) => {
+          this.refs.content.innerHTML = content
+          this.update()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  document.registerElement('github-readme', GithubReadme)
+</script>
