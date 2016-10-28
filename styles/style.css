@@ -1,7 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Caesar+Dressing');
+
 html {
   color: #333;
   font-family: sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.github h1 {
+  font-family: 'Caesar Dressing', sans-serif;
+  font-size: 70px;
+}
+
+.github [aria-hidden] {
+  display: none;
+}
+
+.github pre {
+  padding: 20px;
+  background: #efefef;
 }
