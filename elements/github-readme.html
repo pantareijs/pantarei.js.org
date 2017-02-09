@@ -1,47 +1,50 @@
 <template-element id="github-readme">
   <template>
-    <content ref="content" select=".github"></content>
+    <slot name="github"></slot>
   </template>
 </template-element>
 
 <script>
   class GithubReadme extends Pantarei.Element {
 
-    get props () {
-      return {
-        owner: {
-          type: String,
-          value: ''
-        },
-        repos: {
-          type: String,
-          value: ''
-        }
-      }
+    static get is () {
+      return 'github-readme'
     }
 
-    after_connect () {
-      let url = `https://api.github.com/repos/${this.owner}/${this.repos}/readme`
+    static get observedAttributes () {
+      return ['owner', 'repos']
+    }
+
+    attributeChangedCallback () {
+      let owner = this.getAttribute('owner')
+      let repos = this.getAttribute('repos')
+      this.update(owner, repos)
+    }
+
+    update (owner, repos) {
+      if (!owner || !repos) {
+        return
+      }
+      let url = `https://api.github.com/repos/${owner}/${repos}/readme`
       fetch(url, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/vnd.github.v3.html',
-            'Content-Type': 'application/vnd.github.v3.html'
-          }
-        })
-        .then((res) => {
-          return res.text()
-        })
-        .then((content) => {
-          let node = this.querySelector('.github')
-          node.innerHTML = content
-          this.update()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        method: 'GET',
+        headers: {
+          'Accept': 'application/vnd.github.v3.html',
+          'Content-Type': 'application/vnd.github.v3.html'
+        }
+      })
+      .then((res) => {
+        return res.text()
+      })
+      .then((content) => {
+        let node = this.querySelector('.github')
+        node.innerHTML = content
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 
-  document.registerElement('github-readme', GithubReadme)
+  window.customElements.define('github-readme', GithubReadme)
 </script>
