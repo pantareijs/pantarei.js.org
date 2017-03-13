@@ -1,0 +1,53 @@
+<link rel="import" href="layout-land.html">
+<link rel="import" href="layout-page.html">
+
+<template-element id="app-container">
+  <template>
+    <style>
+      :host > * {
+
+      }
+
+      @media (min-width: 544px) {
+        :host > * {
+          --container-max-width: 576px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        :host > * {
+          --container-max-width: 720px;
+        }
+      }
+
+      @media (min-width: 992px) {
+        :host > * {
+          --container-max-width: 940px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        :host > * {
+          --container-max-width: 1140px;
+        }
+      }
+    </style>
+
+    <div id="container"></div>
+
+  </template>
+</template-element>
+
+<script>
+
+  class AppContainer extends Pantarei.Router {
+
+    static get is () {
+      return 'app-container'
+    }
+
+  }
+
+  window.customElements.define('app-container', AppContainer)
+
+</script>

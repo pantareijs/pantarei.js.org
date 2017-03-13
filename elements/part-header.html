@@ -1,0 +1,55 @@
+<link rel="import" href="part-header-desktop.html">
+<link rel="import" href="part-header-mobile.html">
+
+<template-element id="part-header">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .desktop {
+        display: block;
+      }
+
+      .mobile {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .desktop {
+          display: none;
+        }
+
+        .mobile {
+          display: block;
+        }
+      }
+    </style>
+
+    <part-header-desktop class="desktop" menu="{{menu}}"></part-header-desktop>
+    <part-header-mobile class="mobile" menu="{{menu}}"></part-header-mobile>
+
+  </template>
+</template-element>
+
+<script>
+  class PartHeader extends Pantarei.Element {
+
+    static get is () {
+      return 'part-header'
+    }
+
+    static get props () {
+      return {
+        menu: {
+          type: Object,
+          value: {}
+        }
+      }
+    }
+
+  }
+
+  customElements.define('part-header', PartHeader)
+</script>

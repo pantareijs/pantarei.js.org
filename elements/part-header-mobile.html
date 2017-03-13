@@ -1,0 +1,152 @@
+<template-element id="part-header-mobile">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #topbar {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        box-sizing: border-box;
+        width: 100%;
+        height: 60px;
+        background-color: white;
+        /*border-bottom: 1px solid #eee;*/
+        box-shadow: 0 1px 1px #eee;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #topbar .space {
+        flex: 1;
+      }
+
+      #topbar #button {
+        padding: 20px;
+      }
+
+      #placeholder {
+        z-index: 0;
+        box-sizing: border-box;
+        width: 100%;
+        height: 60px;
+      }
+
+      #hidebar {
+        display: none;
+        position: fixed;
+        top: 60px;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 100vh;
+        background-color: white;
+      }
+      #hidebar.open {
+        display: block;
+      }
+
+      #links {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #title .link,
+      #links .link {
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #333;
+      }
+
+      #links .space {
+        flex: 1;
+      }
+    </style>
+
+    <div id="topbar">
+      <div id="title">
+        <a class="link" href="/">{{menu.label}}</a>
+      </div>
+      <div class="space"></div>
+      <div id="button">[menu]</div>
+    </div>
+
+    <div id="placeholder"></div>
+
+    <div id="hidebar">
+      <div id="links">
+        <x-repeat id="repeat" items="{{menu.items}}">
+          <template>
+            <a class="link" href="{{item.link}}">{{item.label}}</a>
+          </template>
+        </x-repeat>
+        <div class="space"></div>
+      </div>
+    </div>
+
+  </template>
+</template-element>
+
+<script>
+  class PartHeaderMobile extends Pantarei.Element {
+
+    static get is () {
+      return 'part-header-mobile'
+    }
+
+    static get props () {
+      return {
+        menu: {
+          type: Object,
+          value: {}
+        }
+      }
+    }
+
+    ready () {
+      this.refs.repeat.addEventListener('render', this.on_render_link.bind(this))
+      this.refs.button.addEventListener('click', this.toggle.bind(this))
+    }
+
+    toggle () {
+      this.refs.hidebar.classList.toggle('open')
+    }
+
+    on_render_link (event) {
+      let detail = event.detail
+      let index = detail.index
+      let node = detail.node
+
+      node.classList.toggle('selected', index === this.menu.selected_item)
+    }
+
+    on_click (event) {
+      let target = event.target
+      if (target.nodeName !== 'A') {
+        return
+      }
+      event.preventDefault()
+      let href = target.getAttribute('href')
+      page(href)
+    }
+
+    on_click_toggle (event) {
+      event.preventDefault()
+      event.stopPropagation()
+      this.toggle()
+    }
+
+    on_click_menu (event) {
+      let target = event.target
+      if (target.nodeName !== 'A') {
+        return
+      }
+      this.toggle()
+    }
+
+  }
+
+  customElements.define('part-header-mobile', PartHeaderMobile)
+</script>

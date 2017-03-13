@@ -6,19 +6,18 @@
   <script src="scripts/fetch.js"></script>
   <script src="https://unpkg.com/pantarei/dist/webcomponents.js"></script>
   <script src="https://unpkg.com/pantarei/dist/pantarei.js"></script>
+  <script src="scripts/page.js"></script>
+  <script src="scripts/router.js"></script>
+
+  <script src="/data/menus.js"></script>
+  <script src="/data/pages.js"></script>
+  <script src="/data/config.js"></script>
   <link rel="stylesheet" href="styles/style.css">
-  <link rel="import" href="elements/github-readme.html">
+  <link rel="import" href="elements/app-container.html">
 </head>
 <body>
 
-  <github-readme owner="pantareijs" repos="pantarei">
-    <div class="github" slot="github"></div>
-  </github-readme>
-
-  <div>
-    <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
-    <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
-  </div>
+  <app-container></app-container>
 
 </body>
 </html>

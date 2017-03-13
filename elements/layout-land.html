@@ -1,0 +1,124 @@
+<link rel="import" href="part-header.html">
+<link rel="import" href="part-footer.html">
+
+<template-element id="layout-land">
+  <template>
+    <style>
+      :host {
+        display: block
+      }
+
+      #layout {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #header {
+        display: block;
+        z-index: 100;
+      }
+
+      #main {
+        display: block;
+      }
+
+      #jumbotron {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        height: 400px;
+        background-color: #eee;
+      }
+
+      #heading {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--container-max-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.9375rem;
+        padding-right: 0.9375rem;
+      }
+
+      #heading .title,
+      #heading .subtitle {
+        color: white;
+        margin: 0;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      #heading .title {
+        font-size: 50px;
+      }
+
+      .container {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--container-max-width);
+        margin-top: 30px;
+        margin-bottom: 60px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.9375rem;
+        padding-right: 0.9375rem;
+        line-height: 2;
+      }
+
+      .container .title {
+        font-weight: 100;
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .separator {
+        border: 1px solid #efefef;
+      }
+
+      #space {
+        flex: 1;
+      }
+    </style>
+
+    <div id="layout">
+      <part-header id="header" menu="{{data.menu}}"></part-header>
+      <div id="main">
+        <div id="jumbotron">
+          <div id="heading">
+            <h1 class="title">Pantarei.js</h1>
+            <h2 class="subtitle">Build Modern Web App using Web Standards</h2>
+          </div>
+        </div>
+        <div class="container"></div>
+      </div>
+      <div id="space"></div>
+      <part-footer></part-footer>
+    </div>
+
+  </template>
+</template-element>
+
+<script>
+  class LayoutLand extends Pantarei.Element {
+
+    static get is () {
+      return 'layout-land'
+    }
+
+    static get props () {
+      return {
+        data: {
+          type: Object,
+          value: {}
+        }
+      }
+    }
+
+  }
+
+  customElements.define('layout-land', LayoutLand)
+</script>

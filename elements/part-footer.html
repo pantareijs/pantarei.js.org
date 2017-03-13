@@ -1,0 +1,81 @@
+<template-element id="part-footer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #footer {
+        height: 60px;
+        background-color: white;
+        color: #333;
+        font-size: 12px;
+      }
+
+      #footer .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        max-width: var(--container-max-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.9375rem;
+        padding-right: 0.9375rem;
+      }
+
+      #space {
+        flex: 1;
+        flex-basis: 0.000000001px;
+      }
+
+      #items .item {
+        display: inline-block;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+      #items .link {
+        color: #333;
+        text-decoration: none;
+      }
+      #items .link:hover {
+        color: #2090ff;
+      }
+
+      @media (max-width: 768px) {
+        #footer {
+          height: auto;
+        }
+
+        #items .item {
+          display: block;
+          margin: 15px 0;
+        }
+      }
+    </style>
+
+    <div id="footer">
+      <div class="container">
+        <div id="items">
+          <span class="item">Made with <span id="love">♥</span> by <a class="link" target="_blank" href="http://enricomarino.com">Enrico Marino</a></span>
+        </div>
+        <div id="space"></div>
+      </div>
+    </div>
+
+  </template>
+</template-element>
+
+<script>
+  class PartFooter extends Pantarei.Element {
+
+    static get is () {
+      return 'part-footer'
+    }
+
+  }
+
+  customElements.define('part-footer', PartFooter)
+</script>
