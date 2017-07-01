@@ -67,15 +67,13 @@
     <div id="header">
       <div id="container">
         <div id="title">
-          <a class="link" href="/">{{menu.label}}</a>
+          <a class="link" href="/" text="menu.label"></a>
         </div>
         <div id="space"></div>
         <div id="links">
-          <x-repeat id="repeat" items="{{menu.items}}">
-            <template>
-              <a class="link" href="{{item.link}}">{{item.label}}</a>
-            </template>
-          </x-repeat>
+          <template repeat="menu.items">
+            <a class="link" attr.href="item.path" text="item.label"></a>
+          </template>
         </div>
       </div>
     </div>
@@ -86,43 +84,15 @@
 <script>
   class PartHeaderDesktop extends Pantarei.Element {
 
-    static get is () {
-      return 'part-header-desktop'
-    }
+    static get is () { return 'part-header-desktop' }
 
     static get props () {
       return {
-        menu: {
-          type: Object,
-          value: {}
-        }
+        menu: { value: {} }
       }
-    }
-
-    ready () {
-      this.shadowRoot.addEventListener('click', this.on_click.bind(this))
-      this.refs.repeat.addEventListener('render', this.on_render_link.bind(this))
-    }
-
-    on_render_link (event) {
-      let detail = event.detail
-      let index = detail.index
-      let node = detail.node
-
-      node.classList.toggle('selected', index === this.menu.selected_item)
-    }
-
-    on_click (event) {
-      let target = event.target
-      if (target.nodeName !== 'A') {
-        return
-      }
-      event.preventDefault()
-      let href = target.getAttribute('href')
-      page(href)
     }
 
   }
 
-  customElements.define('part-header-desktop', PartHeaderDesktop)
+  window.customElements.define('part-header-desktop', PartHeaderDesktop)
 </script>

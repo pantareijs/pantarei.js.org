@@ -27,8 +27,8 @@
       }
     </style>
 
-    <part-header-desktop class="desktop" menu="{{menu}}"></part-header-desktop>
-    <part-header-mobile class="mobile" menu="{{menu}}"></part-header-mobile>
+    <part-header-desktop class="desktop" prop.menu="menu"></part-header-desktop>
+    <part-header-mobile class="mobile" prop.menu="menu"></part-header-mobile>
 
   </template>
 </template-element>
@@ -36,20 +36,15 @@
 <script>
   class PartHeader extends Pantarei.Element {
 
-    static get is () {
-      return 'part-header'
-    }
+    static get is () { return 'part-header' }
 
     static get props () {
       return {
-        menu: {
-          type: Object,
-          value: {}
-        }
+        menu: { value: {} }
       }
     }
 
   }
 
-  customElements.define('part-header', PartHeader)
+  window.customElements.define('part-header', PartHeader)
 </script>

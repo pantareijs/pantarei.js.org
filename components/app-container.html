@@ -1,0 +1,199 @@
+<link rel="import" href="layout-land.html">
+<link rel="import" href="layout-page.html">
+
+<template-element id="app-container">
+  <template>
+    <style>
+      :host > * {
+        --primary-font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --primary-font-color: #656c7f;
+        --primary-font-size: 15px;
+
+        font-family: var(--primary-font-family);
+        color: var(--primary-font-color);
+        font-size: var(--primary-font-size);
+      }
+
+      @media (min-width: 544px) {
+        :host > * {
+          --container-max-width: 576px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        :host > * {
+          --container-max-width: 720px;
+        }
+      }
+
+      @media (min-width: 992px) {
+        :host > * {
+          --container-max-width: 940px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        :host > * {
+          --container-max-width: 1140px;
+        }
+      }
+    </style>
+
+    <div id="container"></div>
+
+  </template>
+</template-element>
+
+<script>
+
+  class AppContainer extends Pantarei.Element {
+
+    static get is () { return 'app-container' }
+
+    get context () {
+      return {
+        pages: this._pages,
+        menus: this._menus
+      }
+    }
+
+    constructor () {
+      super()
+
+      this._router = new Pantarei.Router()
+      this._history = new Pantarei.Router.History()
+      this._history.events.on('change', this._router.dispatch)
+      this._router.update = this._update.bind(this)
+    }
+
+    start (index) {
+      if (this._started) {
+        return
+      }
+      fetch(index)
+        .then((res) => { return res.json() })
+        .then((res) => {
+          this._pages = res
+          this._register_pages(this._pages)
+          this._register_menus(this._pages)
+          this._history.start()
+        })
+      this._started = true
+    }
+
+    _register_pages (pages) {
+      for (let page of pages) {
+        this._register_page(page)
+      }
+    }
+
+    _register_page (page) {
+      let path = '#' + page.path
+      this._router.add(path, page)
+    }
+
+    _update (page) {
+      this._page = this._page || {}
+
+      if (this._page.name === page.name) {
+        return
+      }
+
+      if (this._page.layout !== page.layout) {
+        let layout = document.createElement(page.layout)
+        layout.data = page
+
+        if (this.refs.container.firstChild) {
+          this.refs.container.firstChild.remove()
+        }
+        this.refs.container.appendChild(layout)
+        this._layout = layout
+      }
+
+      this._resolve_links(page)
+      this._page = page
+      this._layout.data = page
+      this._layout.context = this.context
+    }
+
+    _resolve_links (state) {
+      for (let key in state) {
+        let value = state[key]
+        this._resolve_link(value)
+      }
+    }
+
+    _resolve_link (property) {
+      if (typeof property !== 'object') {
+        return
+      }
+      if (typeof property.link !== 'string') {
+        return
+      }
+      if (property.type === 'markdown') {
+        if (property.data) {
+          return
+        }
+
+        property.data = new Promise((resolve, reject) => {
+          fetch(property.link)
+            .then((res) => {
+              if (!res.ok) {
+                return Promise.reject(res)
+              }
+              return res.text()
+            })
+            .then((res) => {
+              let html = marked(res)
+              resolve(html)
+            })
+            .catch(reject)
+        })
+      }
+    }
+
+    _get_page (page_name) {
+      for (let page of this._pages) {
+        if (page.name === page_name) {
+          return page
+        }
+      }
+    }
+
+    _register_menus (pages) {
+      this._menus = this._menus || {}
+      for (let page of pages) {
+        this._register_menu(page)
+      }
+    }
+
+    _register_menu (page) {
+      if (!page.parent) {
+        return
+      }
+      let parent = this._get_page(page.parent)
+      if (!parent) {
+        return
+      }
+      let menu = this._menus[parent.name]
+      if (!menu) {
+        menu = {
+          name: parent.name,
+          label: parent.title,
+          path: '#' + parent.path,
+          items: []
+        }
+        this._menus[parent.name] = menu
+      }
+      let menu_item = {
+        name: page.name,
+        label: page.title,
+        path: '#' + page.path
+      }
+      menu.items.push(menu_item)
+    }
+
+  }
+
+  window.customElements.define(AppContainer.is, AppContainer)
+</script>

@@ -3,23 +3,16 @@
 <head>
   <meta charset="utf-8">
   <title>Pantarei.js</title>
-  <script src="scripts/fetch.js"></script>
-  <script src="https://unpkg.com/pantarei/dist/webcomponents.js"></script>
-  <script src="https://unpkg.com/pantarei/dist/pantarei.js"></script>
-  <script src="scripts/tawk.js"></script>
-  <script src="scripts/ga.js"></script>
-  <script src="scripts/page.js"></script>
-  <script src="scripts/router.js"></script>
-
-  <script src="/data/menus.js"></script>
-  <script src="/data/pages.js"></script>
-  <script src="/data/config.js"></script>
-  <link rel="stylesheet" href="styles/style.css">
-  <link rel="import" href="elements/app-container.html">
+  <style>html, body { margin: 0; padding: 0; }</style>
+  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@1.0.1/webcomponents-loader.js"></script>
+  <script src="https://unpkg.com/pantarei@2.2.0"></script>
+  <script src="https://pantareijs.github.io/pantarei-router/dist/router.js"></script>
+  <script src="https://unpkg.com/web-animations-js@2.2.5"></script>
+  <script src="https://unpkg.com/marked@0.3.6"></script>
+  <link rel="import" href="/components/app-container.html">
 </head>
 <body>
-
-  <app-container></app-container>
-
+  <app-container id="app"></app-container>
+  <script>app.start('/index.json')</script>
 </body>
 </html>

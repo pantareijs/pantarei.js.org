@@ -1,0 +1,176 @@
+<link rel="import" href="part-content.html">
+<link rel="import" href="part-header.html">
+<link rel="import" href="part-footer.html">
+<!-- <link rel="import" href="part-nav.html"> -->
+<!-- <link rel="import" href="part-up.html"> -->
+
+<template-element id="layout-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #layout {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        height: 100%;
+        background-color: white;
+      }
+
+      #header {
+
+      }
+
+      #jumbotron {
+        height: 100px;
+        /*box-shadow: 0px 1px 1px #eee;*/
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        flex: 1;
+        max-width: var(--container-max-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.9375rem;
+        padding-right: 0.9375rem;
+      }
+
+      #jumbotron .container {
+        align-items: flex-end;
+      }
+      #title {
+        margin-left: 240px;
+      }
+
+      #main {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        min-height: 100vh;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: row;
+      }
+
+      #aside {
+        box-sizing: border-box;
+        width: 300px;
+        height: 100%;
+        padding-top: 40px;
+        padding-right: 40px;
+      }
+
+      #content {
+        display: block;
+        flex: 1;
+        box-sizing: border-box;
+        padding-top: 40px;
+        padding-left: 40px;
+        padding-bottom: 40px;
+        line-height: 2;
+      }
+
+      #content ::slotted(*) {
+        font-weight: 400;
+      }
+
+      #space {
+        flex: 1;
+        flex-basis: 0.000000001px;
+      }
+
+      #upper {
+        position: fixed;
+        bottom: 120px;
+        right: 20px;
+      }
+
+      #footer {
+        display: block;
+        border-top: 1px solid #eee;
+      }
+
+      #cover {
+        width: 100%;
+        /*border: 5px solid #333;*/
+        height: 400px;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-image: url('/images/cover.jpg');
+      }
+
+      @media (max-width: 767px) {
+        #main {
+          flex-direction: column;
+        }
+
+        #aside {
+          width: 100%;
+          border: none;
+        }
+
+      }
+    </style>
+
+    <div id="layout">
+      <part-header id="header" prop.menu="main"></part-header>
+      <div id="jumbotron">
+        <div class="container"><h1 id="title" text="data.title"></h1></div>
+      </div>
+      <div id="main">
+        <div id="container" class="container">
+          <div id="aside">
+            <slot name="sidebar"></slot>
+            <part-nav id="nav" prop.menu="menu"></part-nav>
+          </div>
+          <div id="content">
+            <part-content prop.content="data.content"></part-content>
+            <div>
+              <a href="https://js.org" target="_blank" title="JS.ORG | JavaScript Community">
+              <img src="https://logo.js.org/dark_horz.png" width="102" alt="JS.ORG Logo"/></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <part-up id="upper"></part-up>
+      <part-footer id="footer"></part-footer>
+    </div>
+
+  </template>
+</template-element>
+
+<script>
+  class LayoutPage extends Pantarei.Element {
+
+    static get is () { return 'layout-page' }
+
+    static get props () {
+      return {
+        data: { value: {} },
+        menu: { value: {} },
+        main: { value: {} }
+      }
+    }
+
+    ready () {
+      this.main = this.context.menus.home
+    }
+
+    render () {
+      this.menu = this.context.menus[this.data.name] || this.context.menus[this.data.parent]
+    }
+
+  }
+
+  window.customElements.define(LayoutPage.is, LayoutPage)
+</script>
