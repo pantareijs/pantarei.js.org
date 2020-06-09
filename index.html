@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta author="Enrico Marino">
   <title>Pantarei.js</title>
-  <style>html, body { margin: 0; padding: 0; }</style>
-  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@1.0.1/webcomponents-loader.js"></script>
-  <script src="https://unpkg.com/pantarei@2.2.0"></script>
-  <script src="https://pantareijs.github.io/pantarei-router/dist/router.js"></script>
-  <script src="https://unpkg.com/web-animations-js@2.2.5"></script>
-  <script src="https://unpkg.com/marked@0.3.6"></script>
-  <link rel="import" href="/components/app-container.html">
+  <script type="module" src="./index.js"></script>
 </head>
 <body>
-  <app-container id="app"></app-container>
-  <script>app.start('/index.json')</script>
+  <noscript>Pantarei.js</noscript>
+  <div id="root"></div>
 </body>
 </html>

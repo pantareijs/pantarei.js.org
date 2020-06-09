@@ -1,1 +1,1 @@
-# Pantarei
+# Pantarei.js

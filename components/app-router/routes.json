@@ -1,0 +1,16 @@
+[
+  {
+    "name": "home",
+    "component": "page-home"
+  },
+  {
+    "name": "guide",
+    "component": "page-guide",
+    "routes": [
+      {
+        "param": "section_id",
+        "component": "page-section"
+      }
+    ]
+  }
+]
